@@ -16,6 +16,8 @@ public:
 	virtual void OnInput(const FString& Input) override;
 
 	void GameSetup();
+	void GameOver();
+	void ProcessGuess(FString Guess);
 
 	// Your declarations go below!
 private:
@@ -23,5 +25,7 @@ private:
 	FString HiddenWord;
 	
 	int32 Lives;
+
+	bool bGameOver;
 	
 };
