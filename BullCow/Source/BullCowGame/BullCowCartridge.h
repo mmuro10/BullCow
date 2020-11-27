@@ -18,6 +18,11 @@ public:
 	void GameSetup();
 	void GameOver();
 	void ProcessGuess(FString Guess);
+	bool IsIsogram(FString Word) const;
+
+	TArray<FString> Words;
+
+	TArray<FString> GetValidWords(TArray<FString>) const;
 
 	// Your declarations go below!
 private:
