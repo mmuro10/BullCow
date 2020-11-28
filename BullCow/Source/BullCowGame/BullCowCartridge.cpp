@@ -9,12 +9,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
-	Isograms = GetValidWords(Words);
-
 	//For having the word list in a .txt file
 	const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
 	FFileHelper::LoadFileToStringArray(Words, *WordListPath);
-	
+
+	Isograms = GetValidWords(Words);
+
 	GameSetup();	//setting up game
 }
 
@@ -64,6 +64,8 @@ void UBullCowCartridge::GameOver()
 
 void UBullCowCartridge::ProcessGuess(const FString& Guess)
 {
+	int32 Bulls, Cows;
+	
 	//check user input
 	if (HiddenWord == Guess)
 	{
@@ -73,7 +75,7 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 		bGameOver = true;
 		return;
 	}
-	
+
 	//remove a life
 	--Lives;
 	
@@ -83,9 +85,6 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 		GameOver();
 		return;
 	}
-	
-	// Show the player Bulls and Cows
-	
 
 	//Check right number of characters
 	if (HiddenWord.Len() != Guess.Len())
@@ -102,18 +101,9 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 		PrintLine(TEXT("No repeating letters, guess again"));
 		PrintLine(TEXT("You have %i trys left."), Lives);
 	}
-	
-	else
-	{
-		PrintLine(Guess);
-		PrintLine(TEXT("You have %i trys left."), Lives);
-		return;
-	}
-	/*
-	int32 Bulls, Cows;
+	// Show the player Bulls and Cows
 	GetBullCows(Guess, Bulls, Cows);
-
-	PrintLine(TEXT("You hae %i Bulls and %i Cows"), Bulls, Cows);*/
+	PrintLine(TEXT("You have %i Bulls and %i Cows"), Bulls, Cows);
 }
 
 bool UBullCowCartridge::IsIsogram(const FString& Word) const
@@ -135,7 +125,7 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
 {
 	TArray<FString> ValidWords;
 
-	for (FString Word: WordList)
+	for (FString Word : WordList)
 	{
 		if (Word.Len() >= 4 && Word.Len() <= 8 && IsIsogram(Word))
 		{
@@ -146,7 +136,7 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
 		return ValidWords;
 }
 
-/*
+
 void UBullCowCartridge::GetBullCows(const FString & Guess, int32 & BullCount, int32 & CowCount) const
 {
 	BullCount = 0;
@@ -171,4 +161,3 @@ void UBullCowCartridge::GetBullCows(const FString & Guess, int32 & BullCount, in
 		}
 	}
 }
-*/
